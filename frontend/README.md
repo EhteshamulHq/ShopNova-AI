@@ -1,16 +1,46 @@
-# React + Vite
+## Module 2 – Requirement Analysis
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+- Project objectives
+- User roles
+- Functional requirements
+- Non-functional requirements
+- Security requirements
+- Performance goals
 
-Currently, two official plugins are available:
+## Module 3 – Project Structure
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Created frontend and backend folders
+- Organized components, pages, routes, models, controllers, services, and utilities
+- Established an industry-standard scalable project structure
 
-## React Compiler
+## Module 4 – Backend Setup
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Initialized Node.js project
+- Installed Express and middleware
+- Configured environment variables
+- Created Express application
+- Verified backend server
 
-## Expanding the Oxlint configuration
+## Module 5 – Frontend Setup
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+- Created React application using Vite
+- Installed React Router and Axios
+- Organized frontend folder structure
+- Configured BrowserRouter
+- Added global styles
+
+## Module 6 – MongoDB Connection
+
+- Installed Mongoose
+- Created MongoDB Atlas cluster
+- Configured environment variables
+- Added reusable database connection
+- Connected backend to MongoDB Atlas
+
+## Module 7 – Git & GitHub Setup
+
+- Initialized Git repository
+- Connected local project to GitHub
+- Created first commit
+- Configured remote origin
+- Established branching strategy
