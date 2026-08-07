@@ -1,19 +1,48 @@
-// Load environment variables
+/**
+ * ==========================================================
+ *                  SERVER ENTRY POINT
+ * ==========================================================
+ * This file is responsible for:
+ * 1. Loading environment variables
+ * 2. Connecting to MongoDB
+ * 3. Starting the Express server
+ * ==========================================================
+ */
+
+// ----------------------------------------------------------
+// Load Environment Variables
+// ----------------------------------------------------------
 require("dotenv").config();
 
-// Import Express app
+// ----------------------------------------------------------
+// Import Express Application
+// ----------------------------------------------------------
 const app = require("./app");
 
-// Import database connection
+// ----------------------------------------------------------
+// Import Database Connection Function
+// ----------------------------------------------------------
 const connectDatabase = require("./config/database");
 
-// Connect MongoDB
+// ----------------------------------------------------------
+// Connect to MongoDB Database
+// ----------------------------------------------------------
 connectDatabase();
 
-// Read port from environment
+// ----------------------------------------------------------
+// Define Server Port
+// If PORT is available in .env, use it.
+// Otherwise, use 5000 as the default.
+// ----------------------------------------------------------
 const PORT = process.env.PORT || 5000;
 
-// Start server
+// ----------------------------------------------------------
+// Start Express Server
+// ----------------------------------------------------------
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log("=======================================");
+  console.log("🚀 ShopNova Backend Server Started");
+  console.log(`🌐 Server URL : http://localhost:${PORT}`);
+  console.log(`📦 Environment : ${process.env.NODE_ENV || "development"}`);
+  console.log("=======================================");
 });
