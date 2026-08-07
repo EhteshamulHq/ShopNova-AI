@@ -19,19 +19,14 @@ export default function AddAddressPage() {
 
   const navigate = useNavigate();
 
-  const {
-    loading,
-    error,
-    success,
-  } = useSelector(
-    (state) => state.address
-  );
+  const { loading, error, success } = useSelector((state) => state.address);
 
   const handleSubmit = async (data) => {
-    const result =
-      await dispatch(addAddress(data));
+    const result = await dispatch(addAddress(data));
 
     if (addAddress.fulfilled.match(result)) {
+      dispatch(getAddresses());
+
       navigate("/address");
     }
   };
@@ -54,29 +49,19 @@ export default function AddAddressPage() {
 
   return (
     <div className="mx-auto max-w-4xl p-6">
-
       <div className="mb-8">
+        <h1 className="text-3xl font-bold">Add New Address</h1>
 
-        <h1 className="text-3xl font-bold">
-          Add New Address
-        </h1>
-
-        <p className="mt-2 text-slate-500">
-          Add a new delivery address.
-        </p>
-
+        <p className="mt-2 text-slate-500">Add a new delivery address.</p>
       </div>
 
       <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-700 dark:bg-slate-900">
-
         <AddressForm
           loading={loading}
           submitText="Save Address"
           onSubmit={handleSubmit}
         />
-
       </div>
-
     </div>
   );
 }

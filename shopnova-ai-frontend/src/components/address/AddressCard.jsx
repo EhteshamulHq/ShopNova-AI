@@ -1,10 +1,14 @@
 import { useDispatch } from "react-redux";
 
 import toast from "react-hot-toast";
+import ConfirmModal from "../common/ConfirmModal";
+
+import useConfirm from "../../hooks/useConfirm";
 
 import {
   deleteAddress,
   setDefaultAddress,
+  getAddresses,
 } from "../../features/address";
 
 import {
@@ -21,49 +25,54 @@ export default function AddressCard({
 }) {
   const dispatch = useDispatch();
 
-const handleDelete = async () => {
-  const confirmed = window.confirm(
-    "Are you sure you want to delete this address?"
-  );
+  const confirm = useConfirm();
 
-  if (!confirmed) return;
+  const handleDelete = async () => {
+   const result = await dispatch(
+  deleteAddress(address._id)
+);
 
-  const result = await dispatch(
-    deleteAddress(address._id)
-  );
+if (deleteAddress.fulfilled.match(result)) {
+  dispatch(getAddresses());
+}
 
-  if (deleteAddress.fulfilled.match(result)) {
-    toast.success(
-      "Address deleted successfully."
-    );
-  } else {
-    toast.error(
-      result.payload ||
-        "Unable to delete address."
-    );
-  }
-};
+    if (deleteAddress.fulfilled.match(result)) {
+      toast.success(
+        "Address deleted successfully."
+      );
+    } else {
+      toast.error(
+        result.payload ||
+          "Unable to delete address."
+      );
+    }
+  };
 
-const handleDefault = async () => {
-  const result = await dispatch(
-    setDefaultAddress(address._id)
-  );
+  const handleDefault = async () => {
+    const result = await dispatch(
+  setDefaultAddress(address._id)
+);
 
-  if (setDefaultAddress.fulfilled.match(result)) {
-    toast.success(
-      "Default address updated."
-    );
-  } else {
-    toast.error(
-      result.payload ||
-        "Unable to update default address."
-    );
-  }
-};
+if (setDefaultAddress.fulfilled.match(result)) {
+  dispatch(getAddresses());
+}
+
+    if (setDefaultAddress.fulfilled.match(result)) {
+      toast.success(
+        "Default address updated."
+      );
+    } else {
+      toast.error(
+        result.payload ||
+          "Unable to update default address."
+      );
+    }
+  };
+
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:shadow-lg dark:border-slate-700 dark:bg-slate-900">
-      <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-lg font-semibold">
+    <div>
+      <div className="flex items-center justify-between">
+        <h3>
           {address.fullName}
         </h3>
 
@@ -104,38 +113,42 @@ const handleDefault = async () => {
         </button>
 
         <button
-          onClick={onDelete}
-          className="flex items-center gap-2 rounded-lg border border-red-200 px-4 py-2 text-sm text-red-600"
+          type="button"
+          onClick={confirm.show}
+          className="rounded-lg border border-red-300 px-4 py-2 text-red-600 transition hover:bg-red-50 dark:border-red-700 dark:hover:bg-red-900/20"
         >
           <FaTrash />
-         <button
-  type="button"
-  onClick={handleDelete}
-  className="rounded-lg border border-red-300 px-4 py-2 text-red-600 transition hover:bg-red-50 dark:border-red-700 dark:hover:bg-red-900/20"
->
-  Delete
-</button>
+          Delete
         </button>
 
         {!address.isDefault && (
           <button
-            onClick={onDefault}
-            className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm text-white"
+            type="button"
+            disabled={address.isDefault}
+            onClick={handleDefault}
+            className="rounded-lg bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-400"
           >
             <FaCheckCircle />
-            <button
-  type="button"
-  disabled={address.isDefault}
-  onClick={handleDefault}
-  className="rounded-lg bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-400"
->
-  {address.isDefault
-    ? "Default"
-    : "Set Default"}
-</button>
+
+            {address.isDefault
+              ? "Default"
+              : "Set Default"}
           </button>
         )}
       </div>
+
+      <ConfirmModal
+        open={confirm.open}
+        title="Delete Address"
+        message="This address will be permanently removed."
+        confirmText="Delete"
+        cancelText="Cancel"
+        onCancel={confirm.hide}
+        onConfirm={async () => {
+          confirm.hide();
+          await handleDelete();
+        }}
+      />
     </div>
   );
 }

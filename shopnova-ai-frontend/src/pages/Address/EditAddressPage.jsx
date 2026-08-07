@@ -58,13 +58,17 @@ const { selectedAddress } =
     }
   }, [success, dispatch, navigate]);
 
-  const handleSubmit = (data) => {
-    dispatch(
-      updateAddress({
-        id,
-        payload: data,
-      })
-    );
+  const handleSubmit = async (data) => {
+  const result = await dispatch(
+  updateAddress({
+    id,
+    payload: data,
+  })
+);
+
+if (updateAddress.fulfilled.match(result)) {
+  dispatch(getAddresses());
+}
   };
 
  if (loading) {
